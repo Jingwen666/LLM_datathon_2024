@@ -14,7 +14,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run /Workspace/Repos/jingwen_huang@transalta.com/databricks_hackathon_2024/_resources/00-init-advanced $reset_all_data=True
+# MAGIC %run /Workspace/Repos/jingwen_huang@transalta.com/LLM_datathon_2024/databricks_hackathon_2024/_resources/00-init-advanced $reset_all_data=False
 
 # COMMAND ----------
 
@@ -246,13 +246,30 @@ vsc = VectorSearchClient()
 
 if not endpoint_exists(vsc, VECTOR_SEARCH_ENDPOINT_NAME):
     vsc.create_endpoint(name=VECTOR_SEARCH_ENDPOINT_NAME, endpoint_type="STANDARD")
-
+# Wait for the Vector Search endpoint with the name 'VECTOR_SEARCH_ENDPOINT_NAME' to be ready
 wait_for_vs_endpoint_to_be_ready(vsc, VECTOR_SEARCH_ENDPOINT_NAME)
 print(f"Endpoint named {VECTOR_SEARCH_ENDPOINT_NAME} is ready.")
 
 # COMMAND ----------
 
+VECTOR_SEARCH_ENDPOINT_NAME
+
+# COMMAND ----------
+
+# DBTITLE 1,to update vector index, rerun this code
+### what we are trying to do here: # 1. creating an index named 'main.asset_nav_chunk_200_op_20_k_3.pdf_transformed_self_managed_vector_search_index_chunk_200_op_20_k_3' on the endpoint named 'asset_nav_vector_search_endpoint_chunk_twohundred'.
+# The index is being created for the table 'main.asset_nav_chunk_200_op_20_k_3.pdf_transformed'.
+# The index is a self-managed vector search index, which means it will store embeddings (vector representations) of the data.
+# The data table has a column named 'id' which serves as the primary key for the index.
+# The index will have an embedding dimension of 1024.
+# The embeddings will be extracted from the 'embedding' column of the data table and stored in the index.
+# The index will use a triggered pipeline type, which means the sync process needs to be manually triggered to update the index.
+# If the index already exists, it will trigger a sync to update the index with new data saved in the table.
+# The code will wait for the index to be ready and all the embeddings to be created and indexed before proceeding.
+
 #The table we'd like to index
+
+
 source_table_fullname = f"{catalog}.{db}.pdf_transformed"
 # Where we want to store our index
 vs_index_fullname = f"{catalog}.{db}.pdf_transformed_self_managed_vector_search_index{iterative_text}"
@@ -285,12 +302,18 @@ else:
 question = "How can I track for IGBT issues in the inverter?"
 
 deploy_client = mlflow.deployments.get_deploy_client("databricks")
+## The question is passed as an input to the deployment client's predict function, embeddings are extracted from the response data
 response = deploy_client.predict(endpoint="databricks-bge-large-en", inputs={"input": [question]})
 embeddings = [e['embedding'] for e in response.data]
-
+### using a vector search client to perform a similarity search based on the query vector (embeddings[0])
 results = vsc.get_index(VECTOR_SEARCH_ENDPOINT_NAME, vs_index_fullname).similarity_search(
   query_vector=embeddings[0],
   columns=["url", "content"],
   num_results=1)
+  ## retrieves the value of 'data_array' from the 'result' dictionary nested within the 'results' object
 docs = results.get('result', {}).get('data_array', [])
 pprint(docs)
+
+# COMMAND ----------
+
+

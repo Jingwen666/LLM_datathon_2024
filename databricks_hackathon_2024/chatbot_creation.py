@@ -15,7 +15,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run /Workspace/Repos/jingwen_huang@transalta.com/databricks_hackathon_2024/_resources/00-init-advanced $reset_all_data=false
+# MAGIC %run /Workspace/Repos/jingwen_huang@transalta.com/LLM_datathon_2024/databricks_hackathon_2024/_resources/00-init-advanced $reset_all_data=false
 
 # COMMAND ----------
 
@@ -420,12 +420,16 @@ response
 
 # COMMAND ----------
 
+print('model_name from config', model_name)
+
+# COMMAND ----------
+
 import cloudpickle
 import langchain
 from mlflow.models import infer_signature
 
 mlflow.set_registry_uri("databricks-uc")
-model_name = f"{catalog}.{db}.asset_nav_chatbot_model_version_1"
+model_name = f"{catalog}.{db}.{model_name}"
 
 with mlflow.start_run(run_name="asset_nav_chatbot_model_version_1_run_1") as run:
     #Get our model signature from input/output

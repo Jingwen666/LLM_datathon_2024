@@ -16,7 +16,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run /Workspace/Repos/jingwen_huang@transalta.com/databricks_hackathon_2024/_resources/00-init-advanced $reset_all_data=false
+# MAGIC %run /Workspace/Repos/jingwen_huang@transalta.com/LLM_datathon_2024/databricks_hackathon_2024/_resources/00-init-advanced $reset_all_data=false
 
 # COMMAND ----------
 
@@ -130,7 +130,7 @@ embedding_model = DatabricksEmbeddings(endpoint="databricks-bge-large-en")
 
 # COMMAND ----------
 
-index_name=f"{catalog}.{db}.pdf_transformed_self_managed_vector_search_index"
+index_name=f"{catalog}.{db}.{index_name}"
 host = "https://" + spark.conf.get("spark.databricks.workspaceUrl")
 
 #Let's make sure the secret is properly setup and can access our vector search index. Check the quick-start demo for more guidance
@@ -444,7 +444,9 @@ def generate_answers_column(contents: pd.Series, questions: pd.Series) -> pd.Ser
 
 # COMMAND ----------
 
-# MAGIC %sql SELECT * FROM pdf_pre_evaluation LIMIT 2
+# MAGIC %sql 
+# MAGIC
+# MAGIC SELECT * FROM main.asset_nav.pdf_pre_evaluation LIMIT 2
 
 # COMMAND ----------
 
@@ -533,7 +535,3 @@ def generate_answers_column(contents: pd.Series, questions: pd.Series) -> pd.Ser
 #     .trigger(availableNow=True)
 #     .option("checkpointLocation", f'dbfs:{volume_folder}/checkpoints/pdf_eval_chunk')
 #     .table('pdf_evaluation').awaitTermination())
-
-# COMMAND ----------
-
-# MAGIC %sql SELECT * FROM pdf_evaluation LIMIT 2

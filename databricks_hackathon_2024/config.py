@@ -10,14 +10,15 @@
 # COMMAND ----------
 
 # to be configured
-desired_chunk_size = 250
+desired_chunk_size = 200
 desired_overlap_size = 20
 desired_k_value = 3
-iterative_text = "_chunk_250_op_20_k_3" # _chunk_250_op_20_k_3
-
+iterative_text = f"_chunk_{desired_chunk_size}_op_{desired_overlap_size}_k_{desired_k_value}" # _chunk_200_op_20_k_3
+model_name = f"asset_nav_chatbot_model_version_chunk_{desired_chunk_size}"
+index_name = f"pdf_transformed_self_managed_vector_search_index{iterative_text}"
 # automated inference use case
 catalog = "main"
-VECTOR_SEARCH_ENDPOINT_NAME="asset_nav_vector_search_endpoint_iterative_text"
+VECTOR_SEARCH_ENDPOINT_NAME="asset_nav_vector_search_endpoint_chunk_twohundred"
 dbName = db = "asset_nav" + iterative_text
 DATABRICKS_SITEMAP_URL = "https://docs.databricks.com/en/doc-sitemap.xml"
 

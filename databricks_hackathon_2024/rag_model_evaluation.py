@@ -10,7 +10,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run /Workspace/Repos/jingwen_huang@transalta.com/databricks_hackathon_2024/_resources/00-init-advanced $reset_all_data=false
+# MAGIC %run /Workspace/Repos/jingwen_huang@transalta.com/LLM_datathon_2024/databricks_hackathon_2024/_resources/00-init-advanced $reset_all_data=false
 
 # COMMAND ----------
 
@@ -99,7 +99,7 @@ df.write.format("delta").mode("overwrite").option("mergeSchema", "true").saveAsT
 # COMMAND ----------
 
 os.environ['DATABRICKS_TOKEN'] = dbutils.secrets.get("dbdemos", "rag_sp_token")
-model_name = f"{catalog}.{db}.asset_nav_chatbot_model_version_1"
+model_name = f"{catalog}.{db}.{model_name}"
 model_version_to_evaluate = get_latest_model_version(model_name)
 mlflow.set_registry_uri("databricks-uc")
 rag_model = mlflow.langchain.load_model(f"models:/{model_name}/{model_version_to_evaluate}")

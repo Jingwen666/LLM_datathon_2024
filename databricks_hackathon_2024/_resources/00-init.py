@@ -14,7 +14,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run "/Workspace/Repos/jingwen_huang@transalta.com/databricks_hackathon_2024/config"
+# MAGIC %run "/Workspace/Repos/jingwen_huang@transalta.com/LLM_datathon_2024/databricks_hackathon_2024/config"
 
 # COMMAND ----------
 
