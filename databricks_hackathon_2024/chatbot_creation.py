@@ -424,14 +424,20 @@ print('model_name from config', model_name)
 
 # COMMAND ----------
 
+print('chatbot run name is ',run_name_chatbot_creation)
+
+# COMMAND ----------
+
 import cloudpickle
 import langchain
 from mlflow.models import infer_signature
 
 mlflow.set_registry_uri("databricks-uc")
-model_name = f"{catalog}.{db}.{model_name}"
 
-with mlflow.start_run(run_name="asset_nav_chatbot_model_version_1_run_1") as run:
+# model_name = f"{catalog}.{db}.asset_nav_chatbot_model_version"
+model_name = f"{catalog}.{db}.{model_name}"
+# with mlflow.start_run(run_name="asset_nav_chatbot_model_version_1_run_1") as run:
+with mlflow.start_run(run_name=run_name_chatbot_creation) as run:
     #Get our model signature from input/output
     output = full_chain.invoke(dialog)
     signature = infer_signature(dialog, output)

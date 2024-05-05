@@ -216,10 +216,14 @@ print(professionalism)
 
 # COMMAND ----------
 
+print(run_name_evaluation) ## 'asset_nav_chunk_200'
+
+# COMMAND ----------
+
 set_deployments_target("databricks")
 
 #This will automatically log all
-with mlflow.start_run(run_name="asset_nav") as run:
+with mlflow.start_run(run_name=run_name_evaluation) as run:
     eval_results = mlflow.evaluate(data = df_qa_with_preds.toPandas(), # evaluation data,
                                    model_type="question-answering", # toxicity and token_count will be evaluated   
                                    predictions="preds", # prediction column_name from eval_df
@@ -255,5 +259,5 @@ fig.update_xaxes(tickformat=".2f")
 
 # COMMAND ----------
 
-client = MlflowClient()
-client.set_registered_model_alias(name=model_name, alias=f"{catalog}_{db}_prod", version=model_version_to_evaluate)
+# client = MlflowClient()
+# client.set_registered_model_alias(name=model_name, alias=f"{catalog}_{db}_prod_chunk_200", version=model_version_to_evaluate)
