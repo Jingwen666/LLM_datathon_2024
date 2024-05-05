@@ -10,7 +10,7 @@
 # COMMAND ----------
 
 # to be configured
-desired_chunk_size = 400
+desired_chunk_size = 300
 desired_overlap_size = 20
 desired_k_value = 3
 iterative_text = f"_chunk_{desired_chunk_size}_op_{desired_overlap_size}_k_{desired_k_value}" # _chunk_200_op_20_k_3
@@ -27,7 +27,8 @@ run_name_evaluation = f'asset_nav_chunk_{desired_chunk_size}'
 
 # automated inference use case
 catalog = "main"
-VECTOR_SEARCH_ENDPOINT_NAME="asset_nav_vector_search_endpoint_chunk_fourhundred"
+# VECTOR_SEARCH_ENDPOINT_NAME="asset_nav_vector_search_endpoint_chunk_threehundred"
+VECTOR_SEARCH_ENDPOINT_NAME="assetnav_vectorsearch_endpoint_chunk_threehundred"
 dbName = db = "asset_nav" + iterative_text
 DATABRICKS_SITEMAP_URL = "https://docs.databricks.com/en/doc-sitemap.xml"
 

@@ -259,5 +259,5 @@ fig.update_xaxes(tickformat=".2f")
 
 # COMMAND ----------
 
-# client = MlflowClient()
-# client.set_registered_model_alias(name=model_name, alias=f"{catalog}_{db}_prod_chunk_200", version=model_version_to_evaluate)
+client = MlflowClient()
+client.set_registered_model_alias(name=model_name, alias=f"{catalog}_{db}_prod_chunk_200", version=model_version_to_evaluate)
